@@ -113,8 +113,8 @@ function methodGauss(){
             aux = (myMatrizA[j][i])/pivo;
             for (let k = 0; k < ordemMatriz; k++){
                 myMatrizA[j][k] = myMatrizA[j][k] - aux*myMatrizA[i][k];
-                myMatrizB[j] = myMatrizB[j] - aux*myMatrizB[i];
-            }            
+            }
+            myMatrizB[j] = myMatrizB[j] - aux*myMatrizB[i];            
         }
     }
 
