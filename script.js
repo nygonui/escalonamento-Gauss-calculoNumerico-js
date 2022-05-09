@@ -121,3 +121,44 @@ function methodGauss(){
     console.log(myMatrizA)
     console.log(myMatrizB)
 }
+
+function findIncognitas(){
+    let incognitas = [];
+    let result = 0;
+    let somaLinhas = [];
+    
+    for(let i = 0; i < ordemMatriz; i++){
+        incognitas.push(0);
+        somaLinhas.push(0);
+    }
+    
+}
+
+/*
+matriz de ordem 3
+        [a00, a01, a02] [b0]
+        [a10, a11, a12] [b1]
+        [a20, a21, a22] [b2]
+
+        x1, x2, x3 b
+    l1  [1, 2, 3] [2]
+    l2  [0, 4, 6] [1]
+    l3  [0, 0, 2] [7]
+
+
+    l3 eu quero achar o x3, que vai ser o seu coeficiente dividido por B de l3 menos os outros valores de l3
+    l2 eu quero achar o x2, que vai ser o seu coeficiente dividido por B de l2 menos os outros valores de l2
+    l1 eu quero achar x1, que vai o ser seu coeficiente dividido por B de l1 menos os outros valores de l1
+
+    x3 = 7/5
+    x2 = (1 - 6*x3)/4
+    x1 = (2 - 3*x3 - 2*x2)/1
+
+
+    revertando a matriz eu terei
+
+        x1, x2, x3 b
+    l1  [0, 0, 2] [7]
+    l2  [0, 4, 6] [1]
+    l3  [1, 2, 3] [2]
+*/
