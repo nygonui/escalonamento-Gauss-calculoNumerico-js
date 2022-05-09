@@ -33,7 +33,12 @@ function insertInputsOnForm(){
 
     // adiciona a váriavel incrementada com todo os inputs no html
     document.getElementById('myMatriz').innerHTML = inputOfMatriz;
+    document.getElementById('createMultiplicator').innerHTML = '';
 }
+
+
+let myMatrizA = [];
+let myMatrizB = [];
 
 function getValuesOfMatriz(){
 
@@ -49,13 +54,11 @@ function getValuesOfMatriz(){
 
     */
 
-
     let configIdValueA = 'a';
     let configIdValueB = 'b';
     let valueMatrizA;
     let valueMatrizB;
-    let myMatrizA = [];
-    let myMatrizB = []
+    
 
     for(let i = 0; i < ordemMatriz; i++){
         let matrizAux = [];
@@ -90,9 +93,31 @@ function getValuesOfMatriz(){
         
     }
     console.log(myMatrizA);
-    console.log(myMatrizB)
+    console.log(myMatrizB);
+
+    let buttonCreateMultiplicator = '<input type="button" value="Create Multiplicator" onClick="setMultiplicator()">'
+
+    methodGauss();
 }
 
 
+function methodGauss(){
+    let aux = [];
+    let pivo = [];
+    for (let i = 0; i < ordemMatriz; i++){
+        
+        pivo = myMatrizA[i][i];
+        console.log(pivo);
+        
+        for (let j = i+1; j < ordemMatriz; j++){
+            aux = (myMatrizA[j][i])/pivo;
+            for (let k = 0; k < ordemMatriz; k++){
+                myMatrizA[j][k] = myMatrizA[j][k] - aux*myMatrizA[i][k];
+                myMatrizB[j] = myMatrizB[j] - aux*myMatrizB[i];
+            }            
+        }
+    }
 
-
+    console.log(myMatrizA)
+    console.log(myMatrizB)
+}
