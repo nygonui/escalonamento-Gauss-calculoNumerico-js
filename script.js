@@ -95,44 +95,141 @@ function getValuesOfMatriz(){
     console.log(myMatrizA);
     console.log(myMatrizB);
 
-    let buttonCreateMultiplicator = '<input type="button" value="Create Multiplicator" onClick="setMultiplicator()">'
+    let result = methodGauss(myMatrizA, myMatrizB);
 
-    methodGauss();
+    let paragraphResult = '<p>';
+    for(let i = 0; i < result.length; i++){
+        paragraphResult += 'x' + (i+1) + '=' + result[i] + ' ';
+    }
+    paragraphResult += '</p>'
+
+    document.getElementById('result').innerHTML = paragraphResult;
 }
 
-
-function methodGauss(){
-    let aux = [];
-    let pivo = [];
-    for (let i = 0; i < ordemMatriz; i++){
-        
-        pivo = myMatrizA[i][i];
-        console.log(pivo);
-        
-        for (let j = i+1; j < ordemMatriz; j++){
-            aux = (myMatrizA[j][i])/pivo;
-            for (let k = 0; k < ordemMatriz; k++){
-                myMatrizA[j][k] = myMatrizA[j][k] - aux*myMatrizA[i][k];
+function methodGauss(A, b){
+    var i, j, k, l, m;
+    //ETAPA DE ESCALONAMENTO
+    for(k = 0; k < A.length - 1; k++){
+        //procura o maior k-ésimo coeficiente em módulo
+        var max = Math.abs(A[k][k]);
+        var maxIndex = k;
+        for(i = k + 1; i < A.length; i++){
+            if(max < Math.abs(A[i][k])){
+                max = Math.abs(A[i][k]);
+                maxIndex = i;
             }
-            myMatrizB[j] = myMatrizB[j] - aux*myMatrizB[i];            
+        }
+        if(maxIndex != k){
+            /*
+             troca a equação k pela equação com o
+             maior k-ésimo coeficiente em módulo
+             */
+            for(j = 0; j < A.length; j++){
+                var temp = A[k][j];
+                A[k][j] = A[maxIndex][j];
+                A[maxIndex][j] = temp;
+            }
+            var temp = b[k];
+            b[k] = b[maxIndex];
+            b[maxIndex] = temp;
+        }
+        //Se A[k][k] é zero, então a matriz dos coeficiente é singular
+        //det A = 0
+        if(A[k][k] == 0){
+            return null;
+        }else{
+            //realiza o escalonamento
+            for(m = k + 1; m < A.length; m++){
+                var F = -A[m][k] / A[k][k];
+                A[m][k] = 0; //evita uma iteração
+                b[m] = b[m] + F *b[k];
+                for(l = k + 1; l < A.length; l++){
+                    A[m][l] = A[m][l] + F * A[k][l];
+                }
+            }
         }
     }
-
-    console.log(myMatrizA)
-    console.log(myMatrizB)
-}
-
-function findIncognitas(){
-    let incognitas = [];
-    let result = 0;
-    let somaLinhas = [];
-    
-    for(let i = 0; i < ordemMatriz; i++){
-        incognitas.push(0);
-        somaLinhas.push(0);
+    //ETAPA DE RESOLUÇÃO DO SISTEMA
+    var X = [];
+    for(i = A.length - 1; i >= 0; i--){
+        X[i] = b[i];
+        for(j = i + 1; j < A.length; j++){
+            X[i] = X[i] - X[j] * A[i][j];
+        }
+        X[i] = X[i] / A[i][i];
     }
-    
+    return X;
 }
+
+
+// function methodGauss(){
+//     let aux = [];
+//     let pivo = [];
+//     for (let i = 0; i < ordemMatriz; i++){
+        
+//         pivo = myMatrizA[i][i];
+//         console.log(pivo);
+        
+//         for (let j = i+1; j < ordemMatriz; j++){
+//             aux = (myMatrizA[j][i])/pivo;
+//             for (let k = 0; k < ordemMatriz; k++){
+//                 myMatrizA[j][k] = myMatrizA[j][k] - aux*myMatrizA[i][k];
+//             }
+//             myMatrizB[j] = myMatrizB[j] - aux*myMatrizB[i];            
+//         }
+//     }
+
+//     console.log(myMatrizA)
+//     console.log(myMatrizB)
+// }
+
+// function findIncognitas(){
+//     let incognitas = [];
+//     let result = 0;
+//     let somaLinhas = [];
+    
+//     for(let i = 0; i < ordemMatriz; i++){
+//         // console.log('- Entrei no iniciador das matrizes');
+//         incognitas.push(0);
+//     }
+
+    
+    
+//     for(let i = ordemMatriz-1; i >= 0; i--){
+        
+//         let soma = 0;
+
+//         for(let j = 0; j < ordemMatriz; j++){
+//             if(i != j) {
+//                 console.log('entrei aqui antes');
+//                 let auxAddress = j-1;
+//                 soma += myMatrizA[i][j]*incognitas[auxAddress];
+//             }
+//             somaLinhas.push(soma);
+//         }
+
+//         for(let j = 0; j < ordemMatriz; j++){
+//             if (i == j) {
+                
+//                 console.log('myMatrizA[' + j +'][' + j + ']:' + myMatrizA[j][j]);
+//                 console.log('myMatrizB[' + j +']:' + myMatrizB[j]);
+//                 console.log('somaLinhas[' + j + ']:' + somaLinhas[j]);
+
+//                 result = myMatrizA[j][j] / (myMatrizB[j] - somaLinhas[j]);
+//                 if(result == 'Infinity'){
+//                     result = 0;
+//                 }
+//                 console.log('result: ' + result);
+//                 incognitas[j] = result;
+//                 console.log('incognitas['+ j + ']:' + incognitas[j]);
+//                 console.log('--------------------');
+//             }
+//         }
+        
+        
+//     }
+//     console.log(incognitas);
+// }
 
 /*
 matriz de ordem 3

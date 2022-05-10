@@ -47,11 +47,6 @@ input[type="button"]{
     border-radius: 5px;
 }
 
-.formMatriz{
-    background: powderblue;
-    
-}
-
 .formMatriz input[type="number"]{
     width: 50px;
     margin: 5px
